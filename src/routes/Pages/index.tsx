@@ -133,6 +133,8 @@ const Pages = ({
       stage={params.stage}
       season={season}
       pots={pots}
+      drawId={drawId}
+      onRefreshDrawId={onRefreshDrawId}
     />
   )
 }

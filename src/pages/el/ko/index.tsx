@@ -16,7 +16,6 @@ import getPossiblePairings from 'engine/getPossiblePairings'
 import getPredicate from 'engine/predicates/ko'
 
 import useCollection from 'utils/hooks/useCollection'
-import useUniqueId from 'utils/hooks/useUniqueId'
 
 import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
@@ -33,6 +32,8 @@ import Root from 'pages/Root'
 interface Props {
   season: number,
   pots: Team[][],
+  drawId: string,
+  onRefreshDrawId: () => void,
 }
 
 interface State {
@@ -54,8 +55,9 @@ function getState(): State {
 const ELKO = ({
   season,
   pots: initialPots,
+  drawId,
+  onRefreshDrawId,
 }: Props) => {
-  const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const matchups = useMemo(() => range(16).map(i => [] as any as [Team, Team]), [initialPots, drawId])
   const predicate = useMemo(() => getPredicate(season), [season])
@@ -74,7 +76,7 @@ const ELKO = ({
   }, [currentPotNum])
 
   const onReset = useCallback(() => {
-    setNewDrawId()
+    onRefreshDrawId()
     setState(getState())
   }, [initialPots])
 

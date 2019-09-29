@@ -17,7 +17,6 @@ import usePopup from 'store/usePopup'
 import useCollection from 'utils/hooks/useCollection'
 import useTimeout from 'utils/hooks/useTimeout'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
-import useUniqueId from 'utils/hooks/useUniqueId'
 
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -51,6 +50,8 @@ interface WorkerResponse {
 
 interface Props {
   pots: Team[][],
+  drawId: string,
+  onRefreshDrawId: () => void,
 }
 
 interface State {
@@ -73,8 +74,9 @@ function getState(pots: Team[][]): State {
 
 const WCGS = ({
   pots: initialPots,
+  drawId,
+  onRefreshDrawId,
 }: Props) => {
-  const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
 
@@ -104,7 +106,7 @@ const WCGS = ({
   }, [drawId])
 
   const onReset = useCallback(() => {
-    setNewDrawId()
+    onRefreshDrawId()
     setState(getState(initialPots))
   }, [initialPots])
 
