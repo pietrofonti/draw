@@ -78,7 +78,7 @@ const ELKO = ({
   const onReset = useCallback(() => {
     onRefreshDrawId()
     setState(getState())
-  }, [initialPots])
+  }, [initialPots, setState, onRefreshDrawId])
 
   const onBallPick = useCallback((i: number) => {
     const currentPot = pots[currentPotNum]

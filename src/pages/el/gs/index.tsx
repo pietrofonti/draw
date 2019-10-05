@@ -106,7 +106,7 @@ const ELGS = ({
   const onReset = useCallback(() => {
     onRefreshDrawId()
     setState(getState(initialPots))
-  }, [initialPots])
+  }, [initialPots, setState, onRefreshDrawId])
 
   const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({

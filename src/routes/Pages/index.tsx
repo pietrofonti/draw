@@ -128,7 +128,6 @@ const Pages = ({
 
   return pots && Page && (
     <Page
-      key={drawId}
       tournament={params.tournament}
       stage={params.stage}
       season={season}
