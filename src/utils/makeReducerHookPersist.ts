@@ -46,6 +46,19 @@ export default <S>(key: string, initialState: S, options?: Options<S>) => {
 
   return () => {
     const [storedValue, setStoredValue] = use()
+
+    window.addEventListener('storage', e => {
+      if (e.key !== key || e.newValue === null) {
+        return
+      }
+      try {
+        const v = JSON.parse(e.newValue) as T
+        setStoredValue(v)
+      } catch (err) {
+        console.error(err)
+      }
+    })
+
     // Return a wrapped version of useState's setter function that ...
     // ... persists the new value to localStorage.
     const setValue = useCallback((value: React.SetStateAction<S>) => {
